@@ -1,11 +1,11 @@
 package com.zm.a1.model;
 
 import lombok.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Data
-@RequiredArgsConstructor
 public class Country {
-    @NonNull
     private String name;
     private String capital;
     private String iso2;

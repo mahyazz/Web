@@ -1,7 +1,9 @@
 package com.zm.a1.model;
 
 import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 public class Weather {
     private String country_name;

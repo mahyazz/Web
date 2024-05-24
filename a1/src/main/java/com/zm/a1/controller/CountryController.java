@@ -54,23 +54,27 @@ public class CountryController {
     }
 
     @GetMapping("/{name}")
-    public Country getCountryByName(@PathVariable String name) {
+    public String getCountryByName(@PathVariable String name) {
         String url = COUNTRY_API_URL + name;
-        HttpHeaders headers = new HttpHeaders();
         headers.set("X-Api-Key", apiProperties.getApiKey());
         HttpEntity<String> entity = new HttpEntity<>(headers);
-        ResponseEntity<Country> response = restTemplate.exchange(url, HttpMethod.GET, entity, Country.class);
-        return response.getBody();
+        String response = restTemplate.getForObject(url, String.class);
+        System.out.println(response);
+        return response;
+        // ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET,
+        // entity, String.class);
+        // System.out.println(response.getBody());
+        // return response.getBody();
     }
 
-    @GetMapping("/{name}/weather")
-    public Weather getWeatherByCountryName(@PathVariable String name) {
-        Country country = getCountryByName(name);
-        String url = WEATHER_API_URL + country.getCapital();
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("X-Api-Key", apiProperties.getApiKey());
-        HttpEntity<String> entity = new HttpEntity<>(headers);
-        ResponseEntity<Weather> response = restTemplate.exchange(url, HttpMethod.GET, entity, Weather.class);
-        return response.getBody();
-    }
+    // @GetMapping("/{name}/weather")
+    // public Weather getWeatherByCountryName(@PathVariable String name) {
+    // Country country = getCountryByName(name);
+    // String url = WEATHER_API_URL + country.getCapital();
+    // headers.set("X-Api-Key", apiProperties.getApiKey());
+    // HttpEntity<String> entity = new HttpEntity<>(headers);
+    // ResponseEntity<Weather> response = restTemplate.exchange(url, HttpMethod.GET,
+    // entity, Weather.class);
+    // return response.getBody();
+    // }
 }
