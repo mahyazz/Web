@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countries Web App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 5px 0;
+            cursor: pointer;
+            color: blue;
+        }
+
+        li:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Countries Web App</h1>
+    <div id="countries"></div>
+    <div id="countryDetails"></div>
+    <div id="weatherDetails"></div>
+
+    <script>
+        async function fetchCountries() {
+            try {
+                const response = await fetch('/countries');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                const data = await response.json();
+                displayCountries(data);
+            } catch (error) {
+                console.error('There has been a problem with your fetch operation:', error);
+            }
+        }
+
+        async function fetchCountryDetails(name) {
+            try {
+                const response = await fetch(`/countries/${name}`);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                const data = await response.json();
+                displayCountryDetails(data);
+            } catch (error) {
+                console.error('There has been a problem with your fetch operation:', error);
+            }
+        }
+
+        async function fetchWeatherDetails(name) {
+            try {
+                const response = await fetch(`/countries/${name}/weather`);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                const data = await response.json();
+                displayWeatherDetails(data);
+            } catch (error) {
+                console.error('There has been a problem with your fetch operation:', error);
+            }
+        }
+
+        function displayCountries(data) {
+            const countriesDiv = document.getElementById('countries');
+            const countriesList = data.countries.map(country =>
+                `<li onclick="fetchCountryDetails('${country.name}')">${country.name}</li>`
+            ).join('');
+            countriesDiv.innerHTML = `<ul>${countriesList}</ul><p>Count: ${data.count}</p>`;
+        }
+
+        function displayCountryDetails(data) {
+            const countryDetailsDiv = document.getElementById('countryDetails');
+            countryDetailsDiv.innerHTML = `
+                <h2>${data.name}</h2>
+                <p>Capital: ${data.capital}</p>
+                <p>ISO2: ${data.iso2}</p>
+                <p>Population: ${data.population}</p>
+                <p>Population Growth: ${data.pop_growth}</p>
+                <p>Currency: ${data.currency.code} - ${data.currency.name}</p>
+                <button onclick="fetchWeatherDetails('${data.name}')">Get Weather</button>
+            `;
+        }
+
+        function displayWeatherDetails(data) {
+            const weatherDetailsDiv = document.getElementById('weatherDetails');
+            weatherDetailsDiv.innerHTML = `
+                <h3>Weather in ${data.capital}, ${data.country_name}</h3>
+                <p>Wind Speed: ${data.wind_speed} m/s</p>
+                <p>Wind Degrees: ${data.wind_degrees}°</p>
+                <p>Temperature: ${data.temp}°C</p>
+                <p>Humidity: ${data.humidity}%</p>
+            `;
+        }
+
+        window.onload = fetchCountries;
+    </script>
+</body>
+
+</html>
