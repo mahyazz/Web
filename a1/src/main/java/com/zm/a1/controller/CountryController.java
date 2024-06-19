@@ -4,6 +4,8 @@ import com.zm.a1.service.CountryService;
 import com.zm.a1.model.Country;
 import com.zm.a1.model.Weather;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 import java.util.*;
 
 @RestController
@@ -24,7 +26,7 @@ public class CountryController {
     }
 
     @GetMapping("/{name}")
-    public Country getCountryByName(@PathVariable String name) {
+    public Country getCountryByName(@PathVariable String name) throws IOException {
         return countryService.getCountryData(name);
     }
 

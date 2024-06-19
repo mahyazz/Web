@@ -1,7 +1,6 @@
 package com.zm.a1.service;
 
 import com.zm.a1.model.Country;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -10,7 +9,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import com.zm.a1.model.CountryList;
+
+import java.io.IOException;
 import java.util.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class CountryService {
@@ -46,30 +48,14 @@ public class CountryService {
         return response;
     }
 
-    public Country getCountryData(String name) {
+    public Country getCountryData(String name) throws IOException {
         String url = COUNTRY_API_URL + name;
+        headers.set("accept", "application/json");
         headers.set("X-Api-Key", apiKey);
         HttpEntity<String> entity = new HttpEntity<>(headers);
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+        String responseBody = response.getBody();
+        return objectMapper.readValue(responseBody, Country.class);
 
-        try {
-            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
-            String responseBody = response.getBody();
-
-            // Log the response for debugging
-            System.out.println("Response from API: " + responseBody);
-
-            // Check if response is in JSON format
-            if (response.getHeaders().getContentType() != null &&
-                    response.getHeaders().getContentType().toString().contains("application/json")) {
-                return objectMapper.readValue(responseBody, Country.class);
-            } else {
-                // Handle non-JSON response
-                System.err.println("Unexpected response content type: " + response.getHeaders().getContentType());
-                return null;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 }
