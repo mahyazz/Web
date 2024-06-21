@@ -1,11 +1,13 @@
 package com.zm.a1.model;
 
+import com.fasterxml.jackson.annotation.*;
+
 import lombok.*;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Country {
 
     @JsonProperty("name")
