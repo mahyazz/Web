@@ -1,6 +1,7 @@
 package com.zm.a1.service;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -32,6 +33,7 @@ public class CountryService {
         this.objectMapper = objectMapper;
     }
 
+    @Cacheable(cacheNames = "cache", key = "'countries_' + #name")
     public Map<String, Object> getAllCountries() {
         CountryList httpResponse = restTemplate.getForObject(COUNTRIES_LIST_API_URL, CountryList.class);
         List<Map<String, String>> countries = new ArrayList<Map<String, String>>();
@@ -50,6 +52,7 @@ public class CountryService {
         return response;
     }
 
+    @Cacheable(cacheNames = "cache", key = "'country_' + #name")
     public Country getCountryData(String name) throws IOException {
         String url = COUNTRY_API_URL + name;
         headers.set("accept", "application/json");
@@ -62,6 +65,7 @@ public class CountryService {
         return countries != null && !countries.isEmpty() ? countries.get(0) : null;
     }
 
+    @Cacheable(cacheNames = "cache", key = "'geodata_' + #capital")
     public GeoData getGeoData(String capital, String country) throws IOException {
         String url = String.format(GEOCODING_API_URL, capital, country);
         headers.set("accept", "application/json");
@@ -74,6 +78,7 @@ public class CountryService {
         return geoData != null && !geoData.isEmpty() ? geoData.get(0) : null;
     }
 
+    @Cacheable(cacheNames = "cache", key = "'weather_' + #name")
     public Weather getWeatherData(String name) throws IOException {
         String capital = getCountryData(name).getCapital();
         GeoData geoData = getGeoData(capital, name);
