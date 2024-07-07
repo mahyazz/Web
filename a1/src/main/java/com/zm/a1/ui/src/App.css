@@ -37,7 +37,16 @@
   }
 }
 
-/* Minimal table styling */
+.container {
+  width: 90%;
+  margin: 40px auto; 
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px; 
+  background-color: #fff;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -65,4 +74,5 @@ tbody tr:nth-child(even) {
 tbody tr:hover {
   background-color: #f1f1f1;
 }
+
 

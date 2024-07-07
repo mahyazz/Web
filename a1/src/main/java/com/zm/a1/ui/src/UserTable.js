@@ -30,7 +30,7 @@ const UserTable = () => {
   return (
     <div>
         {/* <AppNavbar/> */}
-      <Container fluid>
+      <Container className="container">
         <h3>User List</h3>
         <Table className="table">
           <thead>
