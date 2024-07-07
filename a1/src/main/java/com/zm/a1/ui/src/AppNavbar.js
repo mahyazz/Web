@@ -7,9 +7,9 @@ const AppNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <Navbar color="dark" dark expand="md">
+    <Navbar className="navbar">
       <NavbarBrand tag={Link} to="/">Home</NavbarBrand>
-      <NavbarToggler onClick={() => { setIsOpen(!isOpen) }}/>
+      {/* <NavbarToggler onClick={() => { setIsOpen(!isOpen) }}/>
       <Collapse isOpen={isOpen} navbar>
         <Nav className="justify-content-end" style={{width: "100%"}} navbar>
           <NavItem>
@@ -19,7 +19,7 @@ const AppNavbar = () => {
             <NavLink href="https://github.com/oktadev/okta-spring-boot-react-crud-example">GitHub</NavLink>
           </NavItem>
         </Nav>
-      </Collapse>
+      </Collapse> */}
     </Navbar>
   );
 };

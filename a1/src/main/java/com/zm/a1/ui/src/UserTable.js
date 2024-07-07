@@ -29,8 +29,8 @@ const UserTable = () => {
 
   return (
     <div>
-        {/* <AppNavbar/> */}
-      <Container className="container">
+        <AppNavbar/>
+      <Container className="table-container">
         <h3>User List</h3>
         <Table className="table">
           <thead>
