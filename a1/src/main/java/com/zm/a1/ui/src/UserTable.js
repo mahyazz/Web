@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 const UserTable = () => {
 
   const [users, setUsers] = useState([]);
-//   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetch('http://localhost:3002/admin/users')
@@ -19,10 +18,10 @@ const UserTable = () => {
 
   const UserTable = (users.users)?.map(user => {
     return <tr key={user.username}>
-      <td style={{whiteSpace: 'nowrap'}}>{user.username}</td>
+      <td>{user.username}</td>
       <td>{user.registration_date}</td>
       <td>
-        <Button size="sm" color="primary" tag={Link} to={"/users/admin"}>{user.is_active ? "Active" : "Inactive"}</Button>
+        <Button size="sm" color="primary" tag={Link} to={"/admin/users"}>{user.is_active ? "Active" : "Inactive"}</Button>
       </td>
     </tr>
   });
