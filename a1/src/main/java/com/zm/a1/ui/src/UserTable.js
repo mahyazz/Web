@@ -7,6 +7,34 @@ const UserTable = () => {
 
   const [users, setUsers] = useState([]);
 
+  const changeStatus = async (username) => {
+    const url = 'http://localhost:3002/admin/users';
+    const data = {
+      username: username
+    };
+    console.log(data);
+
+    try {
+      const response = await fetch(url, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const responseData = await response.json();
+      alert(`Response received: ${JSON.stringify(responseData)}`);
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Error occurred while sending request');
+    }
+  };
+
   useEffect(() => {
     fetch('http://localhost:3002/admin/users')
       .then(res => res.json())
@@ -17,11 +45,12 @@ const UserTable = () => {
   }, []);
 
   const UserTable = (users.users)?.map(user => {
+    const date = new Date(user.registration_date);
     return <tr key={user.username}>
       <td>{user.username}</td>
-      <td>{user.registration_date}</td>
+      <td>{`${date.toLocaleDateString()}, ${date.toLocaleTimeString()}`}</td>
       <td>
-        <Button size="sm" color="primary" tag={Link} to={"/admin/users"}>{user.is_active ? "Active" : "Inactive"}</Button>
+        <Button className='table-button' onClick={() => changeStatus(user.username)}>{user.is_active ? "Active" : "Inactive"}</Button>
       </td>
     </tr>
   });

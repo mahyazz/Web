@@ -7,6 +7,34 @@ const ApiTokens = () => {
 
   const [tokens, setTokens] = useState([]);
 
+  const deleteToken = async (tokenName) => {
+    const url = 'http://localhost:3002/user/api-tokens';
+    const data = {
+      name: tokenName
+    };
+    console.log(data);
+
+    try {
+      const response = await fetch(url, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const responseData = await response.json();
+      alert(`Response received: ${JSON.stringify(responseData)}`);
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Error occurred while sending request');
+    }
+  };
+
   useEffect(() => {
     fetch('http://localhost:3002/user/api-tokens')
       .then(res => res.json())
@@ -17,12 +45,13 @@ const ApiTokens = () => {
   }, []);
 
   const TokenTable = (tokens.tokens)?.map(token => {
+    const date = new Date(token.expire_date);
     return <tr key={token.name}>
       <td>{token.name}</td>
       <td>{token.token}</td>
-      <td>{token.expire_date}</td>
+      <td>{`${date.toLocaleDateString()}, ${date.toLocaleTimeString()}`}</td>
       <td>
-        <Button size="sm" color="primary" tag={Link} to={"/user/api-tokens"}>Deactivate</Button>
+        <Button className='table-button' onClick={() => deleteToken(token.name)}>Delete</Button>
       </td>
     </tr>
   });
@@ -45,6 +74,7 @@ const ApiTokens = () => {
           {TokenTable}
           </tbody>
         </Table>
+        <Button className="login-button" tag={Link} to={"/user/api-tokens/new"}>Create Token</Button>
       </Container>
     </div>
   );

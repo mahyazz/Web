@@ -7,6 +7,7 @@ import UserTable from './UserTable';
 import UserLogin from './UserLogin';
 import UserRegister from './UserRegister';
 import ApiTokens from './ApiTokens';
+import CreateToken from './CreateToken';
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
         <Route path='/user/register' element={<UserRegister/>}/>
         <Route path='/user/login' element={<UserLogin/>}/>
         <Route path='/user/api-tokens' element={<ApiTokens/>}/>
+        <Route path='/user/api-tokens/new' element={<CreateToken/>}/>
       </Routes>
     </Router>
   )
