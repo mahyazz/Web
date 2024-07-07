@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countries Web App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .result {
+            white-space: pre-wrap; /* Preserves formatting of JSON */
+            background: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        input, button {
+            padding: 10px;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Countries Web App</h1>
+    <div>
+        <button onclick="fetchCountries()">Get All Countries</button>
+        <div id="countries" class="result"></div>
+    </div>
+    <div>
+        <input type="text" id="countryName" placeholder="Enter country name">
+        <button onclick="fetchCountryDetails()">Get Country Details</button>
+        <div id="countryDetails" class="result"></div>
+    </div>
+    <div>
+        <button onclick="fetchWeatherDetails()">Get Weather Details</button>
+        <div id="weatherDetails" class="result"></div>
+    </div>
+
+    <script>
+        async function fetchCountries() {
+            try {
+                const response = await fetch('/countries', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*'
+                    }
+                });
+                const data = await response.json();
+                document.getElementById('countries').innerText = JSON.stringify(data, null, 2);
+            } catch (error) {
+                console.error('Error fetching countries:', error);
+            }
+        }
+
+        async function fetchCountryDetails() {
+            const countryName = document.getElementById('countryName').value;
+            if (!countryName) {
+                alert('Please enter a country name');
+                return;
+            }
+
+            try {
+                const response = await fetch(`/countries/${countryName}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*'
+                    }
+                });
+                const data = await response.json();
+                document.getElementById('countryDetails').innerText = JSON.stringify(data, null, 2);
+            } catch (error) {
+                console.error(`Error fetching details for country ${countryName}:`, error);
+            }
+        }
+
+        async function fetchWeatherDetails() {
+            const countryName = document.getElementById('countryName').value;
+            if (!countryName) {
+                alert('Please enter a country name');
+                return;
+            }
+
+            try {
+                const response = await fetch(`/countries/${countryName}/weather`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*'
+                    }
+                });
+                const data = await response.json();
+                document.getElementById('weatherDetails').innerText = JSON.stringify(data, null, 2);
+            } catch (error) {
+                console.error(`Error fetching weather for country ${countryName}:`, error);
+            }
+        }
+    </script>
+</body>
+</html>
