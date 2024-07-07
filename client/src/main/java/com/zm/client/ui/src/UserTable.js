@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Container, Table } from 'reactstrap';
 import AppNavbar from './AppNavbar';
-import { Link } from 'react-router-dom';
 
 const UserTable = () => {
 
@@ -12,7 +11,6 @@ const UserTable = () => {
     const data = {
       username: username
     };
-    console.log(data);
 
     try {
       const response = await fetch(url, {

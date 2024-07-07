@@ -42,13 +42,7 @@
     <script>
         async function fetchCountries() {
             try {
-                const response = await fetch('/countries', {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Access-Control-Allow-Origin': '*'
-                    }
-                });
+                const response = await fetch('/countries');
                 const data = await response.json();
                 document.getElementById('countries').innerText = JSON.stringify(data, null, 2);
             } catch (error) {
@@ -64,13 +58,7 @@
             }
 
             try {
-                const response = await fetch(`/countries/${countryName}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Access-Control-Allow-Origin': '*'
-                    }
-                });
+                const response = await fetch(`/countries/${countryName}`);
                 const data = await response.json();
                 document.getElementById('countryDetails').innerText = JSON.stringify(data, null, 2);
             } catch (error) {
@@ -86,13 +74,7 @@
             }
 
             try {
-                const response = await fetch(`/countries/${countryName}/weather`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Access-Control-Allow-Origin': '*'
-                    }
-                });
+                const response = await fetch(`/countries/${countryName}/weather`);
                 const data = await response.json();
                 document.getElementById('weatherDetails').innerText = JSON.stringify(data, null, 2);
             } catch (error) {
