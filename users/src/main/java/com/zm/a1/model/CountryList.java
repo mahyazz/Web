@@ -1,4 +1,4 @@
-package com.zm.client.model;
+package com.zm.a1.model;
 
 import lombok.Data;
 import java.util.List;

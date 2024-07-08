@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Container } from 'reactstrap';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import AppNavbar from './AppNavbar';
 
 function Admin() {
@@ -9,9 +9,33 @@ function Admin() {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Login Logic
+    // try {
+    //   const response = await fetch('http://localhost:3002/user/register', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: {
+    //     username: username,
+    //     email: email,
+    //     password: password
+    //   }
+    // })
+
+    // if (!response.ok) {
+    //   throw new Error('Network response was not ok');
+    // }
+
+    // const resStatus = await response.status();
+    // if (resStatus === 200) {
+    //   navigate('/user/api-tokens');
+    // }
+    // } catch (error) {
+    //   console.error('Error:', error);
+    //   alert('Error occurred while sending request');
+    // }
     navigate('/user/api-tokens');
   };
 

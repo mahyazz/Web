@@ -8,9 +8,35 @@ function Admin() {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Login Logic
+    // try {
+    //   const response = await fetch('http://localhost:3002/user/authenticate', {
+    //     method: 'GET',
+    //     headers: {
+    //       'Content-Type': 'application/json'
+    //     },
+    //     body: {
+    //       username: username,
+    //       password: password
+    //     }
+    //   })
+
+    //   if (!response.ok) {
+    //     throw new Error('Network response was not ok');
+    //   }
+
+    //   const resStatus = await response.status();
+    //   if (resStatus === 200) {
+    //     navigate('/user/api-tokens');
+    //   } else if(resStatus === 403){
+    //     alert('403 Forbidden: Invalid User');
+    //     throw new Error('Forbidden: Invalid User');
+    //   }
+    // } catch (error) {
+    //   console.error('Error:', error);
+    //   alert('Error occurred while sending request');
+    // }
     navigate('/user/api-tokens');
   };
 
